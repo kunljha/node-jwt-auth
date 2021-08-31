@@ -17,10 +17,19 @@
 	form.addEventListener('submit', (e) => {
 		e.preventDefault()
 
+		// reading text input values from form
 		const email = e.target.elements.email.value
 		const password = e.target.elements.password.value
 
-		console.log(email, password)
+		try {
+			const res = fetch('/signup', {
+				method: 'POST',
+				body: JSON.stringify({ email, password }),
+				headers: { 'Content-Type': 'application/json' },
+			})
+		} catch (err) {
+			console.log(err)
+		}
 	})
 </script>
 
