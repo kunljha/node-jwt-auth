@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { username, password, database } = require('./config')
 const authRoutes = require('./routes/authRoutes')
 const cookieParser = require('cookie-parser')
+const { requireAuth, checkUser } = require('./middleware/authMiddleware')
 
 const app = express() // initialise express app
 
@@ -30,10 +31,13 @@ mongoose
 	})
 
 // routes
+app.get('*', checkUser)
+
 app.get('/', (req, res) => {
 	res.render('home')
 })
-app.get('/smoothies', (req, res) => {
+
+app.get('/smoothies', requireAuth, (req, res) => {
 	res.render('smoothies')
 })
 
