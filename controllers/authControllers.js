@@ -1,6 +1,6 @@
+require('dotenv').config()
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
-const { secret } = require('../config')
 
 // handle errors
 const handleErrors = (err) => {
@@ -23,8 +23,8 @@ const handleErrors = (err) => {
 		errors.password = 'Password is wrong'
 	}
 
+	// duplicate error code
 	if (err.code === 11000) {
-		// duplicate error code
 		errors.email = 'User already exists with this email!'
 		return errors
 	}
@@ -40,6 +40,7 @@ const handleErrors = (err) => {
 }
 
 // generating jwt token
+const secret = process.env.SECRET
 const createToken = (id) => {
 	return jwt.sign({ id }, `${secret}`, { expiresIn: 3 * 24 * 60 * 60 })
 }

@@ -1,6 +1,6 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const { username, password, database } = require('./config')
 const authRoutes = require('./routes/authRoutes')
 const cookieParser = require('cookie-parser')
 const { requireAuth, checkUser } = require('./middleware/authMiddleware')
@@ -16,7 +16,11 @@ app.use(cookieParser())
 app.set('view engine', 'ejs')
 
 // database connection
+const username = process.env.USER_NAME
+const password = process.env.PASS_WORD
+const database = process.env.DATA_BASE
 const dbURI = `mongodb+srv://${username}:${password}@cluster0.rlzx9.mongodb.net/${database}`
+
 mongoose
 	.connect(dbURI, {
 		useNewUrlParser: true,
